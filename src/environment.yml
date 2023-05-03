@@ -1,0 +1,16 @@
+name: env_TFT
+channels:
+  - soumith
+  - defaults
+dependencies:
+  - python=3.9
+  - pytorch
+  - torchvision
+  - pytorch-cuda=11.8
+  - torchaudio
+  - mnist
+  - prettytable
+  - keras
+  - mlxtend
+  - tensorflow
+prefix: C:\Users\ortiz\anaconda3\envs\env_TFT
