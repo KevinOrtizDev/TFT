@@ -23,7 +23,8 @@ def iou(pred, target, smooth=1e-4):
 
     intersection = (pred * target).sum(dim=2).sum(dim=2)
     union = pred.sum(dim=2).sum(dim=2) + target.sum(dim=2).sum(dim=2)
-      
+    
+    
     return ((intersection + smooth) / (union + smooth)).mean()
     
 
