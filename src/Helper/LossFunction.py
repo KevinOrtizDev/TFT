@@ -19,12 +19,10 @@ def dice_loss(pred, target, smooth = 1.):
 
 def iou(pred, target, smooth=1e-4):
     pred = pred.contiguous()
-    target = target.contiguous()    
-
+    target = target.contiguous() 
     intersection = (pred * target).sum(dim=2).sum(dim=2)
     union = pred.sum(dim=2).sum(dim=2) + target.sum(dim=2).sum(dim=2)
-    
-    
+    union[union==-smooth]=smooth
     return ((intersection + smooth) / (union + smooth)).mean()
     
 
@@ -49,7 +47,6 @@ def tversky_index(pred, target, alpha , beta,smooth = 1e-4):
 
     X_Y = pred.sum(dim=2).sum(dim=2) - intersection
     Y_X = target.sum(dim=2).sum(dim=2) - intersection
-
     loss = (1 - (intersection + smooth)/ ((intersection + smooth) + alpha * X_Y + beta * Y_X))
     
     return loss.mean()
