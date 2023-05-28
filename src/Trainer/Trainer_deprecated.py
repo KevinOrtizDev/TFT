@@ -1,4 +1,6 @@
 
+# Se está utilizando para las optimizaciones el notebook "TrainerSegmentation"
+
 import IPython
 from torchvision import transforms
 from ax.service.managed_loop import optimize
@@ -120,99 +122,3 @@ render(plot_contour(model=model, param_x='lr', param_y='momentum', metric_name='
 df = pd.DataFrame(dict_best_parameters)
 df.to_csv('best_parameters_model.csv')
 
-# def configure_plotly_browser_state():
-  
-#   IPython.display(IPython.core.display.HTML('''
-#         <script src="/static/components/requirejs/require.js"></script>
-#         <script>
-#           requirejs.config({
-#             paths: {
-#               base: '/static/base',
-#               plotly: 'https://cdn.plot.ly/plotly-latest.min.js?noext',
-#             },
-#           });
-#         </script>
-#         '''))
-#configure_plotly_browser_state()
-
-
-
-###################MODEL2###################
-# def train_evaluate(parameterization):
-#     print(parameterization)
-#     net =UNet(2,1,parameterization.get('p')) #crear modelo con el parametro p
-#     net = train_segmentation_ax(net.cuda(), parameterization.get('lr'), parameterization.get('momentum'),  num_epochs=5, mode=2)
-#     return evaluate_segmentation_ax(
-#         model=net.cuda(),
-#         mode=2
-#     )
-# best_parameters_2, values_2, experiment_2, model_2 = optimize(
-#     parameters=[
-#         {"name": "p", "type": "range", "bounds": [0.0, 1.0]},
-#         {"name": "lr", "type": "range", "bounds": [1e-6, 0.4], "log_scale": True},
-#         {"name": "momentum", "type": "range", "bounds": [0.0, 1.0]}
-#     ],
-#     evaluation_function=train_evaluate,
-#     objective_name='accuracy',total_trials=10
-# )
-# dict_best_parameters_2={
-#     'p':[best_parameters_2.get('p')],
-#     'lr':[best_parameters_2.get('lr')],
-#     'momentum':[best_parameters_2.get('momentum')]
-# }
-
-
-
-
-
-# ###################MODEL3###################
-# def train_evaluate(parameterization):
-#     print(parameterization)
-#     net =UNet(2,1,parameterization.get('p')) #crear modelo con el parametro p
-#     net = train_segmentation_ax(net.cuda(), parameterization.get('lr'), parameterization.get('momentum'),  num_epochs=5, mode=3)
-#     return evaluate_segmentation_ax(
-#         model=net.cuda(),
-#         mode=3
-#     )
-# best_parameters_3, values_3, experiment_3, model_3 = optimize(
-#     parameters=[
-#         {"name": "p", "type": "range", "bounds": [0.0, 1.0]},
-#         {"name": "lr", "type": "range", "bounds": [1e-6, 0.4], "log_scale": True},
-#         {"name": "momentum", "type": "range", "bounds": [0.0, 1.0]}
-#     ],
-#     evaluation_function=train_evaluate,
-#     objective_name='accuracy',total_trials=10
-# )
-# dict_best_parameters_3={
-#     'p':[best_parameters_3.get('p')],
-#     'lr':[best_parameters_3.get('lr')],
-#     'momentum':[best_parameters_3.get('momentum')]
-# }
-
-# #Graficas
-# def configure_plotly_browser_state():
-  
-#   IPython.display(IPython.core.display.HTML('''
-#         <script src="/static/components/requirejs/require.js"></script>
-#         <script>
-#           requirejs.config({
-#             paths: {
-#               base: '/static/base',
-#               plotly: 'https://cdn.plot.ly/plotly-latest.min.js?noext',
-#             },
-#           });
-#         </script>
-#         '''))
-# configure_plotly_browser_state()
-# render(plot_contour(model=model, param_x='lr', param_y='momentum', metric_name='p'))
-# render(plot_contour(model=model_2, param_x='lr', param_y='momentum', metric_name='p'))
-# render(plot_contour(model=model_3, param_x='lr', param_y='momentum', metric_name='p'))
-# #EXPORT TO CSV USING PANDA
-# df = pd.DataFrame(dict_best_parameters)
-# df.to_csv('best_parameters_model.csv')
-
-# df = pd.DataFrame(dict_best_parameters_2)
-# df.to_csv('best_parameters_model2.csv')
-
-# df = pd.DataFrame(dict_best_parameters_3)
-# df.to_csv('best_parameters_model3.csv')

@@ -9,12 +9,6 @@ def dice(pred, target, smooth = 1.):
     return ((2. * intersection + smooth) / (pred.sum(dim=2).sum(dim=2) + target.sum(dim=2).sum(dim=2) + smooth)).mean()
 
 def dice_loss(pred, target, smooth = 1.):
-    # pred = pred.contiguous()
-    # target = target.contiguous()    
-
-    # intersection = (pred * target).sum(dim=2).sum(dim=2)
-
-    # loss = (1 - ((2. * intersection + smooth) / (pred.sum(dim=2).sum(dim=2) + target.sum(dim=2).sum(dim=2) + smooth)))
     return 1 - dice(pred, target, smooth)
 
 def iou(pred, target, smooth=1e-4):
@@ -28,12 +22,6 @@ def iou(pred, target, smooth=1e-4):
     
 
 def iou_loss(pred, target, smooth = 1e-4):
-    # pred = pred.contiguous()
-    # target = target.contiguous()    
-
-    # intersection = (pred * target).sum(dim=2).sum(dim=2)
-    # union = pred.sum(dim=2).sum(dim=2) + target.sum(dim=2).sum(dim=2)
-      
     return 1 - iou(pred,target,smooth)
     
 
@@ -56,7 +44,6 @@ def calc_loss_dice(pred, target, metrics, bce_weight=0.1):
     pred = torch.sigmoid(pred)
     dice = dice_loss(pred, target)
     
-    #loss = bce * bce_weight + dice * (1 - bce_weight)
     loss = bce * bce_weight + dice
     
     metrics['bce'] += bce.data.cpu().numpy() * target.size(0)
@@ -71,7 +58,6 @@ def calc_loss_iou(pred, target, metrics, bce_weight=0.1):
     pred = torch.sigmoid(pred)
     iou = iou_loss(pred, target)
     
-    #loss = bce * bce_weight + dice * (1 - bce_weight)
     loss = bce * bce_weight + iou
     
     metrics['bce'] += bce.data.cpu().numpy() * target.size(0)
@@ -84,12 +70,10 @@ def calc_loss_tversky(pred, target, metrics, bce_weight=0.1):
     bce = F.binary_cross_entropy_with_logits(pred, target)
         
     pred = torch.sigmoid(pred)
-    # Alpha, beta values (https://arxiv.org/pdf/1810.07842v1.pdf)
     alpha=.7
     beta=.3
     tversky = tversky_index(pred, target, alpha , beta)
     
-    #loss = bce * bce_weight + dice * (1 - bce_weight)
     loss = bce * bce_weight + tversky
     
     metrics['bce'] += bce.data.cpu().numpy() * target.size(0)
