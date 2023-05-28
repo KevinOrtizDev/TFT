@@ -1,5 +1,3 @@
-import torch
-import torch.nn.functional as F
 
 def dice(pred, target, smooth = 1.):
     pred = pred.contiguous()
@@ -38,54 +36,3 @@ def tversky_index(pred, target, alpha , beta,smooth = 1e-4):
     
     return loss.mean()
 
-def calc_loss_dice(pred, target, metrics, bce_weight=0.1):
-    bce = F.binary_cross_entropy_with_logits(pred, target)
-        
-    pred = torch.sigmoid(pred)
-    dice = dice_loss(pred, target)
-    
-    loss = bce * bce_weight + dice
-    
-    metrics['bce'] += bce.data.cpu().numpy() * target.size(0)
-    metrics['dice'] += dice.data.cpu().numpy() * target.size(0)
-    metrics['loss'] += loss.data.cpu().numpy() * target.size(0)
-    
-    return loss
-
-def calc_loss_iou(pred, target, metrics, bce_weight=0.1):
-    bce = F.binary_cross_entropy_with_logits(pred, target)
-        
-    pred = torch.sigmoid(pred)
-    iou = iou_loss(pred, target)
-    
-    loss = bce * bce_weight + iou
-    
-    metrics['bce'] += bce.data.cpu().numpy() * target.size(0)
-    metrics['iou'] += iou.data.cpu().numpy() * target.size(0)
-    metrics['loss'] += loss.data.cpu().numpy() * target.size(0)
-    
-    return loss
-
-def calc_loss_tversky(pred, target, metrics, bce_weight=0.1):
-    bce = F.binary_cross_entropy_with_logits(pred, target)
-        
-    pred = torch.sigmoid(pred)
-    alpha=.7
-    beta=.3
-    tversky = tversky_index(pred, target, alpha , beta)
-    
-    loss = bce * bce_weight + tversky
-    
-    metrics['bce'] += bce.data.cpu().numpy() * target.size(0)
-    metrics['tversky'] += tversky.data.cpu().numpy() * target.size(0)
-    metrics['loss'] += loss.data.cpu().numpy() * target.size(0)
-    
-    return loss
-
-    
-def print_metrics(metrics, epoch_samples, phase):    
-    outputs = []
-    for k in metrics.keys():
-        outputs.append("{}: {:4f}".format(k, metrics[k] / epoch_samples))
-        
-    print("{}: {}".format(phase, ", ".join(outputs)))
