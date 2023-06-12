@@ -37,7 +37,7 @@ class UNet(nn.Module):
          x = torch.cat([x, self.encode_lvl_1.getResult()], dim=1)
          x = self.decode_lvl_1(x)
          x = torch.cat([x, self.encode_lvl_0.getResult()], dim=1)
+     
          x = self.decode_lvl_0(x)
-        
          # Output
-         return self.output(x)
+         return nn.functional.hardsigmoid(self.output(x))
