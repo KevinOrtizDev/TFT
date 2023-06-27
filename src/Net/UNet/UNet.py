@@ -40,4 +40,4 @@ class UNet(nn.Module):
      
          x = self.decode_lvl_0(x)
          # Output
-         return nn.functional.hardsigmoid(self.output(x))
+         return self.output(x)
