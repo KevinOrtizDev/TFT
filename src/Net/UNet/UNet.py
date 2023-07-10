@@ -13,7 +13,7 @@ class UNet(nn.Module):
          self.encode_lvl_2 = UNetEncode(128, 256, p)
          self.encode_lvl_3 = UNetEncode(256, 512, p)
          self.encode_lvl_4 = UNetEncode(512, 1024, p)
-         self.decode_lvl_4 = UNetDecode(1024, 1024) #Bottleneck
+         self.decode_lvl_4 = UNetDecode(1024, 1024) 
          self.decode_lvl_3 = UNetDecode(512 + 1024, 512)
          self.decode_lvl_2 = UNetDecode(256 + 512, 256)
          self.decode_lvl_1 = UNetDecode(128 + 256, 128)
